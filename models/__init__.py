@@ -12,6 +12,10 @@ class Sessao:
 
     # Iniciar sessão
     def iniciar_sessao(self, usuario):
+        if self.usuario_logado is not None:
+            print("\nJá existe um usuário logado!")
+            return
+
         self.usuario_logado = usuario
         print(f"\nBem-vindo(a), {usuario.nome}!")
 
@@ -23,73 +27,89 @@ class Sessao:
     def obter_usuario(self):
         return self.usuario_logado
 
-    # Encerrar sessão
+    # Encerrar sessão (Logout)
     def encerrar_sessao(self):
-        if self.usuario_logado:
-            print(f"\nAté logo, {self.usuario_logado.nome}!")
+        if self.usuario_logado is not None:
+            print(f"\nUsuário {self.usuario_logado.nome} desconectado com sucesso!")
             self.usuario_logado = None
+            print("Logout realizado!")
         else:
-            print("\nNenhum usuário está logado.")
+            print("\nNenhum usuário está logado!")
 
 
-# Lista para armazenar os usuários cadastrados
+# Lista de usuários cadastrados
 usuarios = []
 
 # Criando a sessão
 sessao = Sessao()
 
+
+# Menu principal
 while True:
-    print("\n=== MENU ===")
+    print("\n========== MENU ==========")
     print("1 - Cadastrar usuário")
     print("2 - Login")
     print("3 - Ver usuário logado")
     print("4 - Logout")
     print("5 - Sair")
+    print("==========================")
 
-    opcao = input("Escolha uma opção: ")
-
-    # Cadastro
+    print("\n")
+    opcao = input("Escolha uma opção: ") 
+    # OPÇÃO 1 - Cadastro
     if opcao == "1":
         nome = input("Digite o nome de usuário: ")
         senha = input("Digite a senha: ")
 
-        novo_usuario = Usuario(nome, senha)
-        usuarios.append(novo_usuario)
+        # Verifica se o usuário já existe
+        if any(u.nome == nome for u in usuarios):
+            print("\nEsse usuário já está cadastrado!")
+        else:
+            novo_usuario = Usuario(nome, senha)
+            usuarios.append(novo_usuario)
+            print("\nUsuário cadastrado com sucesso!")
 
-        print("Usuário cadastrado com sucesso!")
-
-    # Login
+    # OPÇÃO 2 - Login
     elif opcao == "2":
-        nome = input("Usuário: ")
-        senha = input("Senha: ")
 
-        encontrado = False
+        if sessao.usuario_autenticado():
+            print("\nJá existe um usuário logado!")
+        else:
+            nome = input("Usuário: ")
+            senha = input("Senha: ")
 
-        for usuario in usuarios:
-            if usuario.nome == nome and usuario.senha == senha:
-                sessao.iniciar_sessao(usuario)
-                encontrado = True
-                break
+            encontrado = False
 
-        if not encontrado:
-            print("Usuário ou senha incorretos.")
+            for usuario in usuarios:
+                if usuario.nome == nome and usuario.senha == senha:
+                    sessao.iniciar_sessao(usuario)
+                    encontrado = True
+                    break
 
-    # Mostrar usuário logado
+            if not encontrado:
+                print("\nUsuário ou senha incorretos!")
+
+    # OPÇÃO 3 - Ver usuário logado
     elif opcao == "3":
+
         if sessao.usuario_autenticado():
             usuario = sessao.obter_usuario()
-            print(f"Usuário logado: {usuario.nome}")
+            print("\n========== USUÁRIO LOGADO ==========")
+            print(f"Nome: {usuario.nome}")
+            print("Status: Autenticado")
+            print("====================================")
         else:
-            print("Nenhum usuário está logado.")
+            print("\nNenhum usuário está logado!")
 
-    # Logout
+    # OPÇÃO 4 - Logout
     elif opcao == "4":
         sessao.encerrar_sessao()
 
-    # Sair
+    # OPÇÃO 5 - Sair
     elif opcao == "5":
-        print("Programa encerrado.")
+        print("\nPrograma encerrado!")
         break
 
+    # Opção inválida
     else:
-        print("Opção inválida!")
+        print("\nOpção inválida! Tente novamente.")
