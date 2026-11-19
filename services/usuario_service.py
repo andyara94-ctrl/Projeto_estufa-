@@ -1,9 +1,10 @@
 from repositories.usuario_repository import UsuarioRepository
 
+
 class UsuarioService:
 
     @staticmethod
-    def cadastrar(nome,email,senha):
+    def cadastrar(nome, email, senha):
 
         return UsuarioRepository.cadastrar(
             nome,
@@ -12,9 +13,9 @@ class UsuarioService:
         )
 
     @staticmethod
-    def autenticar(nome,senha):
+    def autenticar(email, senha):
 
         return UsuarioRepository.autenticar(
-            nome,
+            email,
             senha
         )

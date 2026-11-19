@@ -3,6 +3,7 @@ import bcrypt
 from database.conexao import Conexao
 from models.usuario import Usuario
 
+
 class UsuarioRepository:
 
     @staticmethod
@@ -35,7 +36,7 @@ class UsuarioRepository:
         conexao.commit()
 
     @staticmethod
-    def autenticar(nome, senha):
+    def autenticar(email, senha):
 
         conexao = Conexao.conectar()
 
@@ -47,11 +48,11 @@ class UsuarioRepository:
         sql = """
             SELECT *
             FROM usuario
-            WHERE nome=%s
+            WHERE email=%s
             LIMIT 1
         """
 
-        cursor.execute(sql, (nome,))
+        cursor.execute(sql, (email,))
 
         resultado = cursor.fetchone()
 

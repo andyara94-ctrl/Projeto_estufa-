@@ -1,6 +1,7 @@
 from repositories.sensor_repository import SensorRepository
 from models.sensor import Sensor
 
+
 class SensorService:
 
     @staticmethod
@@ -26,3 +27,10 @@ class SensorService:
         )
 
         return SensorRepository.cadastrar(sensor)
+
+    @staticmethod
+    def listar_por_usuario(id_usuario):
+
+        return SensorRepository.listar_por_usuario(
+            id_usuario
+        )

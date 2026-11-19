@@ -1,5 +1,4 @@
 from models.sessao import Sessao
-
 from services.usuario_service import UsuarioService
 from services.sensor_service import SensorService
 
@@ -31,12 +30,12 @@ while True:
             )
 
         elif opcao == "2":
-
-            nome = input("Usuário: ").strip()
+            
+            email = input("E-mail: ")
             senha = input("Senha: ")
 
             usuario = UsuarioService.autenticar(
-                nome,
+                email,
                 senha
             )
 
@@ -72,9 +71,10 @@ while True:
         print("\n===== MENU DO USUÁRIO =====")
         print(f"Logado: {usuario.nome}")
         print("1 - Cadastrar sensor")
-        print("2 - Ver usuário logado")
-        print("3 - Logout")
-        print("4 - Sair")
+        print("2 - Ver sensores cadastrados")
+        print("3 - Ver usuário logado")
+        print("4 - Logout")
+        print("5 - Sair")
         print("===========================")
 
         opcao = input("Escolha uma opção: ")
@@ -123,6 +123,43 @@ while True:
 
         elif opcao == "2":
 
+            sensores = SensorService.listar_por_usuario(
+                usuario.idusuario
+            )
+
+            if not sensores:
+
+                print(
+                    "\nNenhum sensor cadastrado."
+                )
+
+            else:
+
+                print(
+                    "\n===== SENSORES CADASTRADOS ====="
+                )
+
+                for sensor in sensores:
+
+                    print(
+                        f"\nID do Sensor: {sensor['idsensor']}"
+                    )
+                    print(
+                        f"ID do Usuário: {sensor['id_usuario_cadastro']}"
+                    )
+                    print(
+                        f"Tipo: {sensor['tipo']}"
+                    )
+                    print(
+                        f"Descrição: {sensor['descricao']}"
+                    )
+                    print(
+                        f"Unidade de Medida: {sensor['unidade_medida']}"
+                    )
+                    print("-" * 40)
+
+        elif opcao == "3":
+
             usuario = sessao.obter_usuario()
 
             print("\n===== USUÁRIO =====")
@@ -137,7 +174,7 @@ while True:
             )
             print("===================")
 
-        elif opcao == "3":
+        elif opcao == "4":
 
             sessao.encerrar_sessao()
 
@@ -145,7 +182,7 @@ while True:
                 "\nLogout realizado com sucesso!"
             )
 
-        elif opcao == "4":
+        elif opcao == "5":
 
             print("\nPrograma encerrado!")
             break

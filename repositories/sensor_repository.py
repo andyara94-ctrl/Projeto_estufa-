@@ -1,5 +1,6 @@
 from database.conexao import Conexao
 
+
 class SensorRepository:
 
     @staticmethod
@@ -38,3 +39,30 @@ class SensorRepository:
         sensor.idsensor = cursor.lastrowid
 
         return sensor
+
+    @staticmethod
+    def listar_por_usuario(id_usuario):
+
+        conexao = Conexao.conectar()
+
+        cursor = conexao.cursor(
+            dictionary=True
+        )
+
+        sql = """
+            SELECT
+                idsensor,
+                id_usuario_cadastro,
+                tipo,
+                descricao,
+                unidade_medida
+            FROM sensor
+            WHERE id_usuario_cadastro = %s
+        """
+
+        cursor.execute(
+            sql,
+            (id_usuario,)
+        )
+
+        return cursor.fetchall()
