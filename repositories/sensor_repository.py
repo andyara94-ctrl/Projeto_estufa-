@@ -66,3 +66,55 @@ class SensorRepository:
         )
 
         return cursor.fetchall()
+
+    @staticmethod
+    def alterar(
+        idsensor,
+        tipo,
+        descricao,
+        unidade
+    ):
+
+        conexao = Conexao.conectar()
+
+        cursor = conexao.cursor()
+
+        sql = """
+            UPDATE sensor
+            SET
+                tipo = %s,
+                descricao = %s,
+                unidade_medida = %s
+            WHERE idsensor = %s
+        """
+
+        cursor.execute(
+            sql,
+            (
+                tipo,
+                descricao,
+                unidade,
+                idsensor
+            )
+        )
+
+        conexao.commit()
+
+    @staticmethod
+    def excluir(idsensor):
+
+        conexao = Conexao.conectar()
+
+        cursor = conexao.cursor()
+
+        sql = """
+            DELETE FROM sensor
+            WHERE idsensor = %s
+        """
+
+        cursor.execute(
+            sql,
+            (idsensor,)
+        )
+
+        conexao.commit()

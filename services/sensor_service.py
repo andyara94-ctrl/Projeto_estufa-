@@ -34,3 +34,25 @@ class SensorService:
         return SensorRepository.listar_por_usuario(
             id_usuario
         )
+
+    @staticmethod
+    def alterar(
+        idsensor,
+        tipo,
+        descricao,
+        unidade
+    ):
+
+        return SensorRepository.alterar(
+            idsensor,
+            tipo,
+            descricao,
+            unidade
+        )
+
+    @staticmethod
+    def excluir(idsensor):
+
+        return SensorRepository.excluir(
+            idsensor
+        )

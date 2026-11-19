@@ -72,9 +72,11 @@ while True:
         print(f"Logado: {usuario.nome}")
         print("1 - Cadastrar sensor")
         print("2 - Ver sensores cadastrados")
-        print("3 - Ver usuário logado")
-        print("4 - Logout")
-        print("5 - Sair")
+        print("3 - Alterar sensor")
+        print("4 - Excluir sensor")
+        print("5 - Ver usuário logado")
+        print("6 - Logout")
+        print("7 - Sair")
         print("===========================")
 
         opcao = input("Escolha uma opção: ")
@@ -160,7 +162,50 @@ while True:
 
         elif opcao == "3":
 
-            usuario = sessao.obter_usuario()
+            idsensor = int(
+                input("ID do sensor: ")
+            )
+
+            tipo = input(
+                "Novo tipo: "
+            ).strip()
+
+            descricao = input(
+                "Nova descrição: "
+            ).strip()
+
+            unidade = input(
+                "Nova unidade: "
+            ).strip()
+
+            SensorService.alterar(
+                idsensor,
+                tipo,
+                descricao,
+                unidade
+            )
+
+            print(
+                "\nSensor alterado com sucesso!"
+            )
+
+        elif opcao == "4":
+
+            idsensor = int(
+                input(
+                    "ID do sensor a excluir: "
+                )
+            )
+
+            SensorService.excluir(
+                idsensor
+            )
+
+            print(
+                "\nSensor excluído com sucesso!"
+            )
+
+        elif opcao == "5":
 
             print("\n===== USUÁRIO =====")
             print(
@@ -174,7 +219,7 @@ while True:
             )
             print("===================")
 
-        elif opcao == "4":
+        elif opcao == "6":
 
             sessao.encerrar_sessao()
 
@@ -182,7 +227,7 @@ while True:
                 "\nLogout realizado com sucesso!"
             )
 
-        elif opcao == "5":
+        elif opcao == "7":
 
             print("\nPrograma encerrado!")
             break
